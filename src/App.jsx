@@ -1,30 +1,35 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Login';
-import Home from './Home'; // <-- Now importing Home
+import Home from './Home';
+
+// 🟢 The Magic Fix: A component that checks auth every time you navigate
+const ProtectedRoute = ({ element }) => {
+  const isAuthenticated = !!localStorage.getItem('token');
+  return isAuthenticated ? element : <Navigate to="/login" replace />;
+};
 
 const App = () => {
-  // Check if user is logged in (your seniors will likely set a token in localStorage)
-  const isAuthenticated = !!localStorage.getItem('token'); 
-
   return (
     <Router>
       <Routes>
-        {/* Route 1: The Login Page */}
+        {/* Public Route */}
         <Route path="/login" element={<Login />} />
 
-        {/* Route 2: The Main Application (Protected) */}
+        {/* Protected Route - Uses our dynamic check */}
         <Route 
           path="/home" 
-          element={
-            isAuthenticated ? <Home /> : <Navigate to="/login" replace />
-          } 
+          element={<ProtectedRoute element={<Home />} />} 
         />
 
-        {/* Default Route: Redirect to Home if logged in, else login */}
+        {/* Catch-all: If logged in, go home. If not, go login. */}
         <Route 
           path="*" 
-          element={<Navigate to={isAuthenticated ? "/home" : "/login"} replace />} 
+          element={
+            localStorage.getItem('token') 
+              ? <Navigate to="/home" replace /> 
+              : <Navigate to="/login" replace />
+          } 
         />
       </Routes>
     </Router>
