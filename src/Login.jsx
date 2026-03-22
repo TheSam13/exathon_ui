@@ -1,62 +1,61 @@
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';  // added
+import { useNavigate } from "react-router-dom";
+import "./Login.css"; 
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-const navigate = useNavigate();               //added
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     console.log("Email:", email);
     console.log("Password:", password);
 
-    //TODO:  connect Firebase here
+    // TODO: connect Firebase here
 
-
-localStorage.setItem('token', 'dummy_token');
-navigate('/home');                                                                             //added
-
+    localStorage.setItem("token", "dummy_token");
+    navigate("/home");
   };
 
   return (
-    <div style={styles.body}>
-      <div style={styles.container}>
+    <div className="login-body">
+      <div className="login-container">
         
-        <div style={styles.header}>
+        <div className="login-header">
           CollegeStudyBuddy
         </div>
 
-        <div style={styles.form}>
+        <div className="login-form">
           
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Email</label>
+          <div className="form-group">
+            <label className="form-label">Email</label>
             <input
               type="email"
               placeholder="Enter your email"
-              style={styles.input}
+              className="form-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Password</label>
+          <div className="form-group">
+            <label className="form-label">Password</label>
             <input
               type="password"
               placeholder="Enter your password"
-              style={styles.input}
+              className="form-input"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
-          <button style={styles.button} onClick={handleLogin}>
+          <button className="login-btn" onClick={handleLogin}>
             Login
           </button>
 
-          <div style={styles.extra}>
+          <div className="extra">
             Don't have an account?{" "}
-            <span style={styles.link}>Sign up</span>
+            <span className="link">Sign up</span>
           </div>
 
         </div>
